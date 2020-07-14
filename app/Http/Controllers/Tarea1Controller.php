@@ -63,23 +63,21 @@ class Tarea1Controller extends Controller
     public function books(Request $request){
         $books = array("El principito", "Los 7 hábitos", "La Vaca", "El moje que vendio su ferrari");
         $toRead = array();
-        $result=0;
         $notRead=0;
 
-        
+        $num = $request->num;
         
         for($i=0;$i<$request->num;$i++){
-            $random=rand(0,(count($books)-1));
-            $toRead[$i]=$books[$random];
+            $aleatorio = array_rand($books);
+            $toRead[] = $books[$aleatorio];
+            unset($books[$aleatorio]);
         }
-        $result=array_values(array_unique($toRead));
-
-        $notRead=array_values(array_diff($books,$result));
+        $notRead=array_values(array_diff($books,$toRead));
         
 
         return view(
             'Tarea#1/Ejercicio7-Result',
-            ['result' => $result,
+            ['result' => $toRead,
             'notRead' => $notRead] );
     }
     public function ejercicio8(){
